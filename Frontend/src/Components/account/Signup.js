@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/styles';
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useHistory } from 'react-router';
 import './signup.css'
-
 const Signup = () => {
 
     const useStyles = makeStyles({
@@ -30,20 +30,33 @@ const Signup = () => {
     }
 
     const handleSubmit = async () => {
-       try {
-        let response = await axios.post("http://localhost:8000/api/users/createuser", credential);
+      try {
+         let response = await axios.post("http://localhost:8000/api/users/createuser", credential);
+       
         if (response.data.success) {
             console.log("Email Sent")
             history.push("/activationmail")
+            toast.success("Succesfully")
             setcredential({ username: "", email: "", password: "" });
         }
+       
+        
        } catch (error) {
-           console.log(error)
+           console.log("error",error)
+            toast.success("invalid details");
        }
     }
 
     return (
         <>
+         <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+      />{" "}
     <div class="signup-box">
   <h2>Register</h2>
 
